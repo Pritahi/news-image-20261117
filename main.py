@@ -4,8 +4,11 @@ import hashlib
 import sys
 
 def get_hash(path):
+    h = hashlib.sha256()
     with open(path, "rb") as f:
-        return hashlib.file_digest(f, "sha256").hexdigest()
+        while chunk := f.read(8192):
+            h.update(chunk)
+    return h.hexdigest()
 
 def main():
     source = "entry.png"
